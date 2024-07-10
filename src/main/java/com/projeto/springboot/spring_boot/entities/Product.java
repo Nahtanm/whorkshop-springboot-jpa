@@ -1,22 +1,25 @@
 package com.projeto.springboot.spring_boot.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_produto")
-public class Product implements Serializable{
+public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -24,25 +27,24 @@ public class Product implements Serializable{
 	private String descricao;
 	private double preco;
 	private String imgUrl;
-	
-	
-	@ManyToOne
-	@JoinColumn(name="categoria_id")
-	private Category categoria;
 
-	
+	@ManyToMany
+	@JoinTable(name = "tb_produto_categoria", 
+	joinColumns = @JoinColumn(name = "produto_id"),
+	inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+	private Set<Category> categoria = new HashSet<>();
+
 	public Product() {
 		super();
 	}
 
-	public Product(Long id, String nome, String descricao, double preco, String imgUrl, Category categoria) {
+	public Product(Long id, String nome, String descricao, double preco, String imgUrl) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.imgUrl = imgUrl;
-		this.categoria = categoria;
 	}
 
 	public Long getId() {
@@ -85,12 +87,8 @@ public class Product implements Serializable{
 		this.imgUrl = imgUrl;
 	}
 
-	public Category getCategoria() {
+	public Set<Category> getCategoria() {
 		return categoria;
-	}
-
-	public void setCategoria(Category categoria) {
-		this.categoria = categoria;
 	}
 
 	@Override
@@ -109,7 +107,5 @@ public class Product implements Serializable{
 		Product other = (Product) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-		
+
 }

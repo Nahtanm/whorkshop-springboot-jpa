@@ -1,9 +1,9 @@
 package com.projeto.springboot.spring_boot.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -11,7 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,8 +26,8 @@ public class Category implements Serializable{
 	private String nome;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "categoria")
-	private List<Product> product = new ArrayList<>();
+	@ManyToMany(mappedBy = "categoria")
+	private Set<Product> product = new HashSet<>();
 
 	
 	public Category() {
@@ -56,7 +56,7 @@ public class Category implements Serializable{
 		this.nome = nome;
 	}
 
-	public List<Product> getProduct() {
+	public Set<Product> getProduct() {
 		return product;
 	}
 
