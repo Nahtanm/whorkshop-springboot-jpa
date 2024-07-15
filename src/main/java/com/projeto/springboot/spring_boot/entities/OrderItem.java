@@ -3,6 +3,7 @@ package com.projeto.springboot.spring_boot.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projeto.springboot.spring_boot.entities.pk.OrderIntemPk;
 
 import jakarta.persistence.EmbeddedId;
@@ -16,7 +17,7 @@ public class OrderItem implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private OrderIntemPk id;
+	private OrderIntemPk id = new OrderIntemPk();
 
 	private Integer quantidade;
 	private double preco;
@@ -32,7 +33,8 @@ public class OrderItem implements Serializable{
 	public OrderItem() {
 		super();
 	}
-	
+
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
