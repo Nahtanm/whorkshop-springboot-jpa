@@ -28,5 +28,11 @@ public class UserService {
 		return user.get();
 		
 	}
+
+	public User inserir(User user){
+
+		return userRepository.save(user);
+
+	}
 	
 }
